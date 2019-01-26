@@ -9,6 +9,7 @@ verify_ssl = true
 flask = "*"
 smartcar = "*"
 tamuhackers19 = {editable = true,path = "."}
+marshmallow = "*"
 
 [requires]
 python_version = "3.6"
