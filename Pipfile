@@ -10,6 +10,7 @@ flask = "*"
 smartcar = "*"
 tamuhackers19 = {editable = true,path = "."}
 marshmallow = "*"
+google-cloud-firestore = "*"
 
 [requires]
 python_version = "3.6"
