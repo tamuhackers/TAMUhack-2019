@@ -17,6 +17,7 @@ if __name__ == "__main__":
         "make": "Tesla",
         "year": 2019,
         "vin": "1N4BA41E94C895344",
+        "registration_class_code": "PAS",
         "license_plate": "6JTR1E",
     }
     try:
