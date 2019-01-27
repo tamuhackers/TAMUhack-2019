@@ -27,7 +27,7 @@ client = smartcar.AuthClient(
 app = Flask("tamuhack19", template_folder=f"{os.path.dirname(os.path.realpath(__file__))}/templates")
 app.secret_key = uuid4().hex
 access = None
-car_data = None # For storing the 'proof of concept' data
+info = None
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -46,7 +46,7 @@ def user_loader(user_id) -> Union[User, None]:
 @login_required
 @app.route("/", methods = ["GET"])
 def home():
-    return render_template("home.html", car_data=car_data)
+    return render_template("home.html", car_data="Please Authenticate by Logging In")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -69,6 +69,37 @@ def login():
                     return redirect(auth_url)
         return render_template("login.html")
     return "You are already logged in!"
+
+@app.route("/profile", methods = ["GET"])
+def profile():
+    # Sample placement data
+    placement = {
+        "legal_name": "John Doe",
+        "phone_number": "555-555-5555",
+        "address": "aaaa",
+        "insurance_company":"State Farm",
+        "insurance_email": "statefarm@statefarm.com",
+        "license_plate": "99999",
+        "make": "Tesla",
+        "model": "Model",
+        "year": "Year",
+        "registration_class_code": "PAS",
+        "vin": "AAAAAAAAAAAAAAAAAAAA"
+        }
+
+    return render_template("profile.html", 
+        name = placement["legal_name"], 
+        p_num = placement["phone_number"], 
+        a = placement["address"], 
+        insurance = placement["insurance_company"], 
+        ins_email = placement["insurance_email"], 
+        plate = placement["license_plate"], 
+        make = placement["make"] if info is None else info["make"], 
+        model = placement["model"] if info is None else info["model"], 
+        year = placement["year"] if info is None else info["year"], 
+        rcc = placement["registration_class_code"], 
+        vin = placement["vin"] if info is None else info["vin"]
+    )
 
 
 @app.route("/light", methods = ["GET", "POST"])
@@ -114,7 +145,7 @@ def light():
             data["police_badge"] = request.form["police_badge"]
         response = requests.post('http://127.0.0.1:5002/light', data=data)
         print(response)
-    return render_template("light.html", d = date, t = time, l = location, w = weather)
+    return render_template("light.html", d = date, t = time, l = location, w = weather, info=info if info is not None else "Please Authenticate by Logging in")
 
 
 @app.route("/logout")
@@ -151,13 +182,15 @@ def vehicle():
     # TODO: Request Step 3: Create a vehicle    
     # instantiate the first vehicle in the vehicle id list
     vehicle = smartcar.Vehicle(vehicle_ids[0], access['access_token']) #Get vehicle general info
+
+    global info
     info = vehicle.info()
 
     info["location"] = vehicle.location()
     info["vin"] = vehicle.vin()
     info["odometer"] =  vehicle.odometer()
-    data = jsonify(info)
-    return redirect(url_for("home"))
+    print(info)
+    return render_template("home.html", car_data=info)
 
 
 if __name__ == "__main__":
