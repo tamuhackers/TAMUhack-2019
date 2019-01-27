@@ -3,3 +3,14 @@ steps:
   args: ['build', '--network=cloudbuild', '-t', 'gcr.io/$PROJECT_ID/tamuhackers19:$COMMIT_SHA', '.']
 images: 
 - 'gcr.io/$PROJECT_ID/tamuhackers19'
+
+- name: gcr.io/cloud-builders/kubectl
+  args:
+  - set
+  - image
+  - deployment
+  - tamuhackers19
+  - gcr.io/$PROJECT_ID/tamuhackers19:$COMMIT_SHA
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=tamuhackers19'
