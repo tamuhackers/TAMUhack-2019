@@ -12,6 +12,7 @@ tamuhackers19 = {editable = true,path = "."}
 marshmallow = "*"
 google-cloud-firestore = "*"
 twilio = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.6"
