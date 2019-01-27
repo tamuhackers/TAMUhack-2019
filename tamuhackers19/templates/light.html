@@ -4,16 +4,22 @@
 {% endblock %}
 
 {% block body %}
-<h1 style="text-align:center; color:teal">Light</h1>
+<h1 style="text-align:center;">Light</h1>
 <div id="first-steps">
 <!-- Simple list -->
 <style>
     .demo-list-item {
         width: 300px;
     }
+
+    .demo-card-wide.mdl-card {
+        width: 400px;
+    }
+
+ 
 </style>
     
-    <ul style= "padding-left:200px;" class="mdl-list">
+    <ul style= "padding-left:10%;" class="mdl-list">
         <li class="mdl-list__item">
         <span class="mdl-list__item-secondary-action">
             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
@@ -61,9 +67,143 @@
         </li>
     </ul>
 </div>
-<div id="Notes">
-    <div>
-
+<div style= "padding-left:10%; padding-bottom: 100px" id="Notes">
+    <div class="demo-card-wide mdl-card">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">The Accident</h2>
+        </div>
+                       
+        <div class="mdl-card__supporting-text">
+            Tell what happened
+        <form method="POST">       
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="date" value="">
+                <label class="mdl-textfield__label" for="sample3">Date</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="time">
+                <label class="mdl-textfield__label" for="sample3">Time</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="location">
+                <label class="mdl-textfield__label" for="sample3">Location</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="direction_you">
+                <label class="mdl-textfield__label" for="sample3">Direction you were travelling in</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="direction_them">
+                <label class="mdl-textfield__label" for="sample3">Direction they were travelling in</label>
+            </div>
+            <input type="file" name="snapshot" accept="image/png, image/jpeg">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea class = "mdl-textfield__input" type = "text" rows =  "3" name = "personal_account" ></textarea>
+                <label class="mdl-textfield__label" for="sample3">Personal Account on What Happened</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="weather">
+                <label class="mdl-textfield__label" for="sample3">Weather</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select class="mdl-textfield__input" name="visibility">
+                    <option></option>
+                    <option value="Great">Great</option>
+                    <option value="Good">Good</option>
+                    <option value="Poor">Poor</option>
+                    <option value="Horrible">Horrible</option>
+                </select>
+                <label class="mdl-textfield__label" for="visi">Visibility</label>
+            </div>
+            <br>
+        </div>
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Other Driver's Info</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="legal_name" value="">
+                <label class="mdl-textfield__label" for="sample3">Legal Name</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="phone_number">
+                <label class="mdl-textfield__label" for="sample3">Phone Number</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="address">
+                <label class="mdl-textfield__label" for="sample3">Address</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="insurance_company" value="">
+                <label class="mdl-textfield__label" for="sample3">Insurance Company</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="insurance_email">
+                <label class="mdl-textfield__label" for="sample3">Insurance Company Email</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="vin">
+                <label class="mdl-textfield__label" for="sample3">Vehicle Identification Number</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="model" value="">
+                <label class="mdl-textfield__label" for="sample3">Car Model</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="make">
+                <label class="mdl-textfield__label" for="sample3">Car Make</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="Year">
+                <label class="mdl-textfield__label" for="sample3">Car Model Year</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="license_plate">
+                <label class="mdl-textfield__label" for="sample3">License Plate</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select class="mdl-textfield__input" name="registration_class_code">
+                    <option></option>
+                    <option value="PAS">PAS - Passenger Vehicle</option>
+                    <option value="SRF">SRF - Personalized Plates</option>
+                    <option value="COM">COM - Commercial Vehicles</option>
+                    <option value="MOT">MOT - Motocycles</option>
+                </select>
+                <label class="mdl-textfield__label" for="registration_code">Registration Class Code</label>
+            </div>
+        </div>
+        <div class="mdl-card__title witness">
+            <h2 class="mdl-card__title-text">Witness's Info</h2>
+        </div>
+        <div class="mdl-card__supporting-text witness">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="witness_legal_name" value="">
+                <label class="mdl-textfield__label" for="sample3">Witness's Legal Name</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="witness_phone_number">
+                <label class="mdl-textfield__label" for="sample3">Witness's Phone Number</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label witness_testimony">
+                <textarea class = "mdl-textfield__input" type = "text" rows =  "3" name = "witness_testimony" ></textarea>
+                <label class="mdl-textfield__label" for="sample3">Witness's Account on What Happened</label>
+            </div>
+        </div>
+        <div class="mdl-card__title police">
+            <h2 class="mdl-card__title-text">Police's Info</h2>
+        </div>
+        <div class="mdl-card__supporting-text police">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="police_legal_name" value="">
+                <label class="mdl-textfield__label" for="sample3">Police's Legal Name</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="police_badge">
+                <label class="mdl-textfield__label" for="sample3">Police's Badge Number</label>
+            </div>
+        </div>
+        <input class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" value="Submit">
+        </form>        
     </div>
 </div>
 {% endblock %}

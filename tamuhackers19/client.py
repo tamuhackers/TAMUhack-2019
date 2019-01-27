@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import os
 
 os.environ["FLASK_ENV"] = "development"
@@ -16,8 +16,10 @@ def profile():
 def emergency():
     return render_template("emergency.html")
 
-@app.route("/light", methods = ["GET"])
+@app.route("/light", methods = ["GET", "POST"])
 def light():
+    if request.method == "POST":
+        print(request.form)
     return render_template("light.html")
 
 if __name__ == "__main__":
