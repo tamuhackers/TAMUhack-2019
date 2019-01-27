@@ -1,62 +1,44 @@
-# -*- coding: utf-8 -*-
-
+from flask import Flask, render_template, request
+import requests
 import os
 import datetime
 
-from uuid import uuid4
-from typing import Union
+os.environ["FLASK_ENV"] = "development"
+os.environ['NO_PROXY'] = '127.0.0.1'
 
-from flask import Flask, render_template, redirect, request, session, url_for
-from flask_login import LoginManager, current_user, login_user, logout_user, login_required
-
-from tamuhackers19.db.firestore_client import FirestoreConnector
-from tamuhackers19.user import User
-from tamuhackers19.utils import send_text_message
-
-import smartcar
-import requests
-
-app = Flask("tamuhack19", template_folder=f"{os.path.dirname(os.path.realpath(__file__))}/templates")
-app.secret_key = uuid4().hex
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-
-dbc = FirestoreConnector()
-
-@login_manager.user_loader
-def user_loader(user_id) -> Union[User, None]:
-    if user_id == dbc.get_login_code(user_id):
-	    user = User(user_id, request.form["code"])
-	    return user
-    return
-
-@login_required
+app = Flask("AccidentApp", template_folder=f"{os.path.dirname(os.path.realpath(__file__))}/templates")
 @app.route("/", methods = ["GET"])
 def home():
     return render_template("home.html")
 
+@app.route("/profile", methods = ["GET"])
+def profile():
+    placement = {
+        "legal_name": "John Doe",
+        "phone_number": "555-555-5555",
+        "address": "aaaa",
+        "insurance_company":"State Farm",
+        "insurance_email": "statefarm@statefarm.com",
+        "license_plate": "99999",
+        "make": "Tesla",
+        "model": "Model",
+        "year": "Year",
+        "registration_class_code": "PAS",
+        "vin": "AAAAAAAAAAAAAAAAAAAA"
+        }
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if current_user.is_anonymous:
-        if request.method == "POST":
-            phone_number = request.form["phone_number"]
-            if "code" not in request.form:
-                # User is attempting to log in using passwordless authentication
-                send_text_message(f"Your access code is {dbc.set_login_code(phone_number)}")
-                return render_template("sms.html", phone_number=phone_number)
-            elif "code" in request.form:
-                code = dbc.get_login_code(phone_number)
-                if request.form["code"] == code:
-                    # User submitted the correct code and may login
-                    user = User(phone_number, code)
-                    login_user(user)
-                    print("User successfully logged in.")
-                    return redirect(url_for("home"))
-        return render_template("login.html")
-    return "You are already logged in!"
+    return render_template("profile.html", name = placement["legal_name"], p_num = placement["phone_number"], a = placement["address"], insurance = placement["insurance_company"], ins_email = placement["insurance_email"], \
+                            plate = placement["license_plate"], make = placement["make"], model = placement["model"], year = placement["year"], rcc = placement["registration_class_code"], vin = placement["vin"])
+
+@app.route("/emergency", methods = ["GET"])
+def emergency():
+    date = datetime.datetime.today().strftime('%m-%d-%Y')
+    time = datetime.datetime.today().strftime('%H:%M')
+    location = "College Station"
+    weather = "s"
+    if request.method == "POST":
+        print(request.form)
+    return render_template("emergency.html", d = date, t = time, l = location, w = weather)
 
 @app.route("/light", methods = ["GET", "POST"])
 def light():
@@ -104,19 +86,5 @@ def light():
         print(response)
     return render_template("light.html", d = date, t = time, l = location, w = weather)
 
-
-@app.route("/logout")
-def logout():
-    if not current_user.is_anonymous:
-        logout_user()
-        print("Logged out user.")
-        return redirect(url_for("login"))
-    print("There is no user available in the session.")
-    return redirect(url_for("login"))
-
-
 if __name__ == "__main__":
-    host = "0.0.0.0"
-    port = 5003
-    print(f"Initializing application on {host}:{port} ")
-    app.run(host=host, port=port)
+    app.run(host = "0.0.0.0", port = 5001)
