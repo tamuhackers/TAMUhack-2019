@@ -25,10 +25,15 @@ def emergency():
 @app.route('/light', methods=["POST"])
 def light():
 	if request.method == "POST":
+<<<<<<< Updated upstream
 		data = request.form
 		send_email(data)
 		return "Success", 200
 	return "Failure", 404
+=======
+		print(request.form)
+	return "hi", 200
+>>>>>>> Stashed changes
 
 
 # Profile

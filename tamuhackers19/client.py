@@ -34,11 +34,9 @@ def profile():
 def emergency():
     date = datetime.datetime.today().strftime('%m-%d-%Y')
     time = datetime.datetime.today().strftime('%H:%M')
-    location = "College Station"
-    weather = "s"
     if request.method == "POST":
         print(request.form)
-    return render_template("emergency.html", d = date, t = time, l = location, w = weather)
+    return render_template("emergency.html", d = date, t = time)
 
 @app.route("/light", methods = ["GET", "POST"])
 def light():
@@ -61,6 +59,7 @@ def light():
             # The information of the other party involved
             "legal_name": request.form["legal_name"],
             "phone_number": request.form["phone_number"],
+            "email": request.form["email"],
             "address": request.form["address"],
             "insurance_company": request.form["insurance_company"],
             "insurance_email": request.form["insurance_email"],
