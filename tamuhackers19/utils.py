@@ -18,22 +18,22 @@ def send_text_message(message: str) -> None:
 		body=message,
 	)
 
-def send_email(email: str, data: str) -> None:
+
+def send_email(data: str) -> None:
 	"""Send an email to the prospective customer.
 	Parameters
 	----------
-	email : str
-		The email that was submitted.
 	data : str
-		The data of the email to be sent.
-	""" 
+		The data for the email to be sent.
+	"""
+
 	body = data
 	from_address = os.environ.get("EMAIL_USER")
 	try:
 		msg = MIMEMultipart()
 		msg["From"] = from_address
 		msg["To"] = email
-		msg["Subject"] = "ReportACrash - Incident Report"
+		msg["Subject"] = "Report A Crash - Incident Report"
 		msg.attach(MIMEText(body, "plain"))
 		server = smtplib.SMTP("smtp.gmail.com", 587)
 		server.starttls()

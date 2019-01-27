@@ -9,27 +9,6 @@ app = Flask("AccidentAppBackend")
 
 dbc = FirestoreConnector()
 
-"""
-# Sending insurance email
-def send_email(info, type):
-	insurNum = ""
-
-	# Send email to insurance company
-	if info[10] != ""
-		subject = info[10]
-	else
-		subject = "IMPORTANT: CRASH!" + insurNum
-
-	if info[11] != ""
-		body = info[""]
-	else
-		body = "I have just gotten in a " + type " crash. Please call " + info[3] + " and email at " + info[4] + "."
-
-	sender = SENDER
-
-	msg = Message(recipients=info[1], subject=subject, body=body)
-	# Exchange information of both drivers from the database (use access codes?)
-"""
 # Emergency
 @app.route('/emergency', methods=["POST"])
 def emergency():
@@ -46,8 +25,10 @@ def emergency():
 @app.route('/light', methods=["POST"])
 def light():
 	if request.method == "POST":
-		print(1, request.form)
-	return "hi", 200
+		data = request.form
+		send_email(data)
+		return "Success", 200
+	return "Failure", 404
 
 
 # Profile
