@@ -60,7 +60,7 @@ def vehicle():
 
     distance = vehicle.odometer()
 
-    info['distance']=call
+    info['location']=call
     info["vin"]=response
     info["odometer"]=distance
    
