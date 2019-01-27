@@ -1,5 +1,6 @@
 
 from typing import Union
+from uuid import uuid4
 
 from tamuhackers19.db.cars_schema import CarsSchema
 from tamuhackers19.db.users_schema import UsersSchema
@@ -47,6 +48,30 @@ class FirestoreConnector(object):
 		return next(query.get())._data
 
 
+	def set_login_code(self, phone_number: str):
+		"""Given a phone number, associate a login code for that
+		number so that a user may login via SMS authentication password.
+		"""
+		code = str(uuid4())[:-6]
+		data = {
+			"phone_number": phone_number,
+			"code": code,
+		}
+		self.db.collection("passwordless").document().set(data)
+
+
+	def get_login_code(self, phone_number: str) -> str:
+		"""Given a phone number, get the login code that was previously
+		associated with it.
+
+		Assumes that set_login_code was previously called and there
+		is a valid value for the phone_number in the collection.
+		"""
+		passwordless_ref = self.db.collection("passwordless")
+		query = passwordless_ref.where("phone_number", "==", phone_number)
+		return next(query.get())._data["code"]
+
+
 if __name__== "__main__":
 	# Example of how the backend will read and send data to the database
 
@@ -88,6 +113,15 @@ if __name__== "__main__":
 	# Register new user with sample car information
 	dbc.register_user(data)
 
+	"""
 	# Retrive the user that was just inserted by using their phone number
 	user_data = dbc.get_user(data["phone_number"])
 	print(user_data)
+	"""
+
+	# Test passwordless authentication
+	dbc.set_login_code(data["phone_number"])
+	passwordless_code = dbc.get_login_code(data["phone_number"])
+	print(passwordless_code)
+	assert type(passwordless_code) == str
+	assert passwordless_code is not None
