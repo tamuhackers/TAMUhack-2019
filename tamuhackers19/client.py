@@ -43,7 +43,6 @@ def light():
     date = datetime.datetime.today().strftime('%m-%d-%Y')
     time = datetime.datetime.today().strftime('%H:%M')
     location = "College Station"
-    weather = "s"
     if request.method == "POST":
         data = {
             # Meta data of the crash
@@ -83,7 +82,7 @@ def light():
             data["police_badge"] = request.form["police_badge"]
         response = requests.post('http://127.0.0.1:5002/light', data=data)
         print(response)
-    return render_template("light.html", d = date, t = time, l = location, w = weather)
+    return render_template("light.html", d = date, t = time, l = location)
 
 if __name__ == "__main__":
     app.run(host = "0.0.0.0", port = 5001)
