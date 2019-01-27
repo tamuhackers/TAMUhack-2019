@@ -1,77 +1,94 @@
-import os#, db
+import os
+import smtplib
+import datetime
 
 from flask import Flask, redirect, url_for, render_template, request
-from flask_mail import Mail
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from tamuhackers19.db.firestore_client import FirestoreConnector
 
 
 os.environ["FLASK_ENV"] = "development"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "tamu.json"
 app = Flask(__name__)
-mail = Mail(app)
 
-SENDER = "carinsurance@gmail.com"
-PASSWORD = "smart_insurance"
+SENDER = "reportacrashinfo@gmail.com"
+PASSWORD = "tamureportacrash"
 
-# dbc = FirestoreConnector()
+dbc = FirestoreConnector()
 
-# def getLightInfo():
-# 	return dbc.vehicle[0]
-
-# def getemergencyInfo():
-# 	return dbc.vehicle[0] + " " + dbc.vehicle[0]
 
 # Home
-@app.route('/', method=["POST","GET"])
+@app.route('/')
 def home():
-	if request.method == "POST":
-		info = ()
-		# Send info and redirect in case of emergency accident
-		if request.form["emergency"] == True:
-			insurance(request.form,"emergency")
-			return redirect('/emergency', info=info)
-		# Send info and redirect in case of light accident
-		elif request.form["light"] == True:
-			return redirect('/light', info=info)
-		elif request.form["profile"] == True:
-			return redirect('/profile')
+	#if request.method == "POST":
+	return insurance()
+	# Send info and redirect in case of emergency accident
+# if request.form["type"] == "emergency":
+	return redirect('/emergency')
+# Send info and redirect in case of light accident
+# elif request.form["type"] == "light":
+	return redirect('/light')
+# elif request.form["type"] == "profile":
+	return redirect('/profile')
 
 # Sending insurance email
-def insurance(info, type):
-	insurNum = ""
-
+def insurance():
+	insurNum = "16516515"
+	# type = request.form["type"]
 	# Send email to insurance company
-	if info[10] != ""
-		subject = info[10]
-	else
-		subject = "IMPORTANT: CRASH!" + insurNum
+	try:
+		if request.form["custom_sub"] != "":
+			subject = info[10]
+		else:
+			subject = "IMPORTANT: CRASH!" + insurNum
 
-	if info[11] != ""
-		body = info[""]
-	else
-		body = "I have just gotten in a " + type " crash. Please call " + info[3] + " and email at " + info[4] + "."
+		if request.form["custom_bod"] != "":
+			extra = info[""]
+		else:
+			extra = "I have just gotten in a " + request.form["type"] + " crash. Please call " + info[3] + " and email at " + info[4] + "."
 
-	sender = SENDER
+		return "new message"
+		#from_address = request.form["insurance_email"]
+		from_address = "reportacrashinfo@gmail.com"
+		email = ""
+		msg = MIMEMultipart()
+		msg["From"] = from_address
+		msg["To"] = email
+		msg["Subject"] = subject
+		body = "Test occured on " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ". " + extra
+		msg.attach(MIMEText(body, "plain"))
+		server = smtplib.SMTP("smtp.gmail.com", 587)
+		server.starttls()
+		server.login(SENDER, PASSWORD)
+		server.sendmail(from_address, [from_address], msg.as_string())
+		server.quit()
+	except Exception as e:
+		failed = True
+		print(e)
+		return str(failed) + " " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-	msg = Message(recipients=info[1], subject=subject, body=body)
+	return "hi"
 	# Exchange information of both drivers from the database (use access codes?)
 
 # Emergency
-@app.route('/emergency', method="POST")
-def emergency(info=info):
-	insurance(info, type="emergency")
-	# Call police
+@app.route('/emergency', methods=["POST","GET"])
+def emergency():
+	
+	return ""
 
 # Light
-@app.route('/light', method="POST")
+@app.route('/light', methods=["POST","GET"])
 def light():
-	insurance(info, type="light")
 
+	return ""
 
 # Profile
-@app.route('/profile', method="POST")
+@app.route('/profile', methods=["POST","GET"])
 def profile():
 	if request.method == "POST":
-
-		data = {
+		if dbc.user_exists(request.form["phone_number"])
+		dbc.car_info = {
         "model": ,
         "make": "Tesla",
         "year": 2019,
@@ -85,19 +102,27 @@ def profile():
 	    except ValidationError as e:
 	        print(e)
 
-		data = {
-        "model": ,
-        "make": "Tesla",
-        "year": 2019,
-        "registration_class_code": "PAS",
-        "vin": "1N4BA41E94C895344",
-        "license_plate": "6JTR1E",
-	    }
-    	try:
-        	data, error = CarsSchema(strict=True).load(data)
-        	print(data)
-	    except ValidationError as e:
-	        print(e)
+		dbc.data = {
+			"legal_name": "Simon Woldemichael",
+			"phone_number": "555-555-555",
+			"address": "1 Main St.",
+			"insurance_company": "State Farm",
+			"insurance_email": "statefarm@statefarm.com",
+			"car_info": dbc.car_info,
+		}
+
+		try:
+			data, error = UsersSchema(strict=True).load(data)
+			print("User information:", data)
+		except ValidationError as e:
+			print(e)
+	return ""
 
 	# Send email to insurance company
 	# Exchange information of both drivers from the database (use access codes?)
+
+if __name__ == "__main__":
+    host = "0.0.0.0"
+    port = 5000
+    print(f"Initializing application on {host}:{port} ")
+    app.run(host=host, port=port)
