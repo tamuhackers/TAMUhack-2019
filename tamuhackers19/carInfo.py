@@ -60,11 +60,12 @@ def vehicle():
 
     distance = vehicle.odometer()
 
+    info['location']=call
     info["vin"]=response
     info["distance"]=distance
    
-    info.update(call) #Merges data
-    print(info)
+    #info.update(call) #Merges data
+    print(info) #dictionary containing all the info
 
     return jsonify(info)
 
