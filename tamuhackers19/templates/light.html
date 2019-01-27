@@ -39,6 +39,20 @@
         }
     }
 
+    var geocoder = new google.maps.Geocoder;
+
+    console.log("{{info['location']['data']}}");
+        geocoder.geocode({'location': "{{l}}"}, function(results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                give_location(results[0].formatted_address);
+            }
+        }})
+
+    function give_location(l) {
+        var locationForm = document.getElementById("location-ref");
+        locationForm.value = l;
+    }
 </script>
     <ul style= "padding-left:10%;" class="mdl-list">
         <li class="mdl-list__item">
@@ -106,7 +120,7 @@
                 <label class="mdl-textfield__label" for="sample3">Time</label>
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" name="location" value="{{l}}">
+                <input class="mdl-textfield__input" type="text" name="location" id="location-ref">
                 <label class="mdl-textfield__label" for="sample3">Location</label>
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
