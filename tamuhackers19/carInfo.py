@@ -60,9 +60,9 @@ def vehicle():
 
     distance = vehicle.odometer()
 
-    info['odometer']=call
+    info['distance']=call
     info["vin"]=response
-    info["distance"]=distance
+    info["odometer"]=distance
    
     #info.update(call) #Merges data
     print(info) #dictionary containing all the info
