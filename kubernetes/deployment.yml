@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tamuhackers19
+  name: tamuhackers19
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tamuhackers19
+  template:
+    metadata:
+      labels:
+        app: tamuhackers19
+    spec:
+      containers:
+      - name: tamuhackers19
+        image: gcr.io/tamuhack2019-229817/tamuhackers19:latest
+        ports:
+          - containerPort: 80
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: gcrcred
