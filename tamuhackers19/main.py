@@ -46,7 +46,11 @@ def user_loader(user_id) -> Union[User, None]:
 @login_required
 @app.route("/", methods = ["GET"])
 def home():
+<<<<<<< Updated upstream
     return render_template("home.html", car_data="Please Authenticate by Logging In")
+=======
+    return render_template("home.html", car_data="Please Authenticate by Logging In" if car_data is None else car_data)
+>>>>>>> Stashed changes
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -189,8 +193,14 @@ def vehicle():
     info["location"] = vehicle.location()
     info["vin"] = vehicle.vin()
     info["odometer"] =  vehicle.odometer()
+<<<<<<< Updated upstream
     print(info)
     return render_template("home.html", car_data=info)
+=======
+    global car_data
+    car_data = dir(jsonify(info))
+    return redirect(url_for("home"))
+>>>>>>> Stashed changes
 
 
 if __name__ == "__main__":
