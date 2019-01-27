@@ -1,4 +1,6 @@
 
+from typing import Union
+
 from tamuhackers19.db.cars_schema import CarsSchema
 from tamuhackers19.db.users_schema import UsersSchema
 
@@ -22,6 +24,29 @@ class FirestoreConnector(object):
 		"""
 		self.db.collection("users").document().set(data)
 
+
+	def user_exists(self, phone_number: str) -> bool:
+		"""Returns a boolean denoting if there is a
+		user in the database associated with a given 
+		phone number."""
+		documents = self.db.collection("users").get()
+		for document in documents:
+			if document["phone_number"] == phone_number:
+				return True
+		return False
+
+
+	def get_user(self, phone_number: str) -> Union[dict, None]:
+		"""Find the user who's database entry matches a given phone number.
+
+		Assumes there can only ever be one account associated with a phone
+		number."""
+
+		users_ref = self.db.collection("users")
+		query = users_ref.where("phone_number", "==", phone_number)
+		return next(query.get())._data
+
+
 if __name__== "__main__":
 	# Example of how the backend will read and send data to the database
 
@@ -35,7 +60,7 @@ if __name__== "__main__":
         "registration_class_code": "PAS",
 		"license_plate": "6JTR1E",
 	}
-	
+
 	try:
 		car_info, error = CarsSchema(strict=True).load(car_info)
 		print("Car information:", car_info)
@@ -62,3 +87,7 @@ if __name__== "__main__":
 
 	# Register new user with sample car information
 	dbc.register_user(data)
+
+	# Retrive the user that was just inserted by using their phone number
+	user_data = dbc.get_user(data["phone_number"])
+	print(user_data)
