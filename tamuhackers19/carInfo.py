@@ -18,6 +18,7 @@ client = smartcar.AuthClient(
 
 @app.route('/login', methods=['GET'])
 
+
 #def index
 def login():
     # TODO: Authorization Step 1b: Launch Smartcar authentication dialog
@@ -53,10 +54,13 @@ def vehicle():
     vehicle = smartcar.Vehicle(vehicle_ids[0], access['access_token'])
     info = vehicle.info()
     response = vehicle.vin()
-    info["vin:"]=response
-    print(info)
+    call = vehicle.location()
+    info["vin"]=response
+    end = {**info,**call}
+    
+    print(end)
 
-    return jsonify(info)
+    return jsonify(end)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=8000)
