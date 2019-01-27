@@ -1,0 +1,274 @@
+{% extends "layout.html" %}
+{% block head %}
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-light_blue.min.css" />
+{% endblock %}
+
+{% block body %}
+<h1 style="text-align:center;">Light</h1>
+<div id="first-steps">
+<style>
+    .demo-list-item {
+        width: 300px;
+    }
+
+    .demo-card-wide.mdl-card {
+        width: 400px;
+    }
+
+</style>
+<script type="text/javascript">
+    function police_checked() {
+        var checkbox = document.getElementById("list-checkbox-6");
+        var hidden = document.getElementById("police");
+
+        if (checkbox.checked == true) {
+            hidden.style.display = "block";
+        } else {
+            hidden.style.display = "none";
+        }
+    }
+
+    function witness_checked() {
+        var checkbox = document.getElementById("list-checkbox-5");
+        var hidden = document.getElementById("witness");
+
+        if (checkbox.checked == true) {
+            hidden.style.display = "block";
+        } else {
+            hidden.style.display = "none";
+        }
+    }
+
+    var geocoder = new google.maps.Geocoder;
+
+    console.log("{{info['location']['data']}}");
+        geocoder.geocode({'location': "{{l}}"}, function(results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                give_location(results[0].formatted_address);
+            }
+        }})
+
+    function give_location(l) {
+        var locationForm = document.getElementById("location-ref");
+        locationForm.value = l;
+    }
+</script>
+    <ul style= "padding-left:10%;" class="mdl-list">
+        <li class="mdl-list__item">
+        <span class="mdl-list__item-secondary-action">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+                <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input"/>
+            </label>
+        </span>
+        <span class="mdl-list__item-primary-content">
+            Get to a safe location
+        </span>
+        </li>
+        <li class="mdl-list__item">
+        <span class="mdl-list__item-secondary-action">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
+                <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input"/>
+            </label>
+        </span>
+        <span class="mdl-list__item-primary-content">
+            Check for yours and your passenger's safety
+        </span>
+        </li>
+        <div style= "padding-top: 10px; padding-bottom: 10px;">
+        <button style= "text-align: center; font-size: 20px; width: 300px; position: relative; left: 2%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                Call 911
+        </button>
+        </div>
+        <li class="mdl-list__item">
+        <span class="mdl-list__item-secondary-action">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
+                <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input"/>
+            </label>
+        </span>
+        <span class="mdl-list__item-primary-content">
+            Turn off car engine
+        </span>
+        </li>
+        <li class="mdl-list__item">
+        <span class="mdl-list__item-secondary-action">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-4">
+                <input type="checkbox" id="list-checkbox-4" class="mdl-checkbox__input"/>
+            </label>
+        </span>
+        <span class="mdl-list__item-primary-content">
+            Turn on hazard lights
+        </span>
+        </li>
+    </ul>
+</div>
+<div style= "padding-left:10%; padding-bottom: 100px" id="Notes">
+    <div class="demo-card-wide mdl-card">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">The Accident</h2>
+        </div>
+                       
+        <div class="mdl-card__supporting-text">
+            Tell what happened
+        <form method="POST">       
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="date" value="{{d}}">
+                <label class="mdl-textfield__label" for="sample3">Date</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="time" value="{{t}}">
+                <label class="mdl-textfield__label" for="sample3">Time</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="location" id="location-ref">
+                <label class="mdl-textfield__label" for="sample3">Location</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="direction_you">
+                <label class="mdl-textfield__label" for="sample3">Direction you were travelling in</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="direction_them">
+                <label class="mdl-textfield__label" for="sample3">Direction they were travelling in</label>
+            </div>
+            <input type="file" name="snapshot" accept="image/png, image/jpeg">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea class = "mdl-textfield__input" type = "text" rows =  "3" name = "personal_account" ></textarea>
+                <label class="mdl-textfield__label" for="sample3">Personal Account on What Happened</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="weather" value="{{w}}">
+                <label class="mdl-textfield__label" for="sample3">Weather</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select class="mdl-textfield__input" name="visibility">
+                    <option></option>
+                    <option value="Great">Great</option>
+                    <option value="Good">Good</option>
+                    <option value="Poor">Poor</option>
+                    <option value="Horrible">Horrible</option>
+                </select>
+                <label class="mdl-textfield__label" for="visi">Visibility</label>
+            </div>
+            <br>
+        </div>
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Other Driver's Info</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="legal_name">
+                <label class="mdl-textfield__label" for="sample3">Legal Name</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="phone_number">
+                <label class="mdl-textfield__label" for="sample3">Phone Number</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="email">
+                <label class="mdl-textfield__label" for="sample3">Email</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="address">
+                <label class="mdl-textfield__label" for="sample3">Address</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="insurance_company">
+                <label class="mdl-textfield__label" for="sample3">Insurance Company</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="insurance_email">
+                <label class="mdl-textfield__label" for="sample3">Insurance Company Email</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="vin">
+                <label class="mdl-textfield__label" for="sample3">Vehicle Identification Number</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="model">
+                <label class="mdl-textfield__label" for="sample3">Car Model</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="make">
+                <label class="mdl-textfield__label" for="sample3">Car Make</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="Year">
+                <label class="mdl-textfield__label" for="sample3">Car Model Year</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="license_plate">
+                <label class="mdl-textfield__label" for="sample3">License Plate</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select class="mdl-textfield__input" name="registration_class_code">
+                    <option></option>
+                    <option value="PAS">PAS - Passenger Vehicle</option>
+                    <option value="SRF">SRF - Personalized Plates</option>
+                    <option value="COM">COM - Commercial Vehicles</option>
+                    <option value="MOT">MOT - Motocycles</option>
+                </select>
+                <label class="mdl-textfield__label" for="registration_code">Registration Class Code</label>
+            </div>
+        </div>
+        <ul class="mdl-list">
+            <li class="mdl-list__item">
+                <span class="mdl-list__item-secondary-action">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-5">
+                        <input type="checkbox" id="list-checkbox-5" name= "has_witness" class="mdl-checkbox__input" onclick="witness_checked()"/>
+                    </label>
+                </span>
+                <span class="mdl-list__item-primary-content">
+                    Are there witnesses?
+                </span>
+            </li>
+            <li class="mdl-list__item">
+                <span class="mdl-list__item-secondary-action">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-6">
+                        <input type="checkbox" id="list-checkbox-6" name= "has_police" class="mdl-checkbox__input" onclick="police_checked()"/>
+                    </label>
+                </span>
+                <span class="mdl-list__item-primary-content">
+                    Are there police?
+                </span>
+            </li>
+        </ul>
+        <div id= "witness" style="display: none">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Witness's Info</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="witness_legal_name">
+                <label class="mdl-textfield__label" for="sample3">Witness's Legal Name</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="witness_phone_number">
+                <label class="mdl-textfield__label" for="sample3">Witness's Phone Number</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label witness_testimony">
+                <textarea class = "mdl-textfield__input" type = "text" rows =  "3" name = "witness_testimony" ></textarea>
+                <label class="mdl-textfield__label" for="sample3">Witness's Account on What Happened</label>
+            </div>
+        </div>
+        </div>
+        <div id= "police" style="display: none">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Police's Info</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="police_legal_name">
+                <label class="mdl-textfield__label" for="sample3">Police's Legal Name</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" name="police_badge">
+                <label class="mdl-textfield__label" for="sample3">Police's Badge Number</label>
+            </div>
+        </div>
+        </div>
+        <input class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" value="Submit">
+    </form>        
+    </div>
+</div>
+{% endblock %}

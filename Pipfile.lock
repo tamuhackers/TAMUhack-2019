@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4bf604b5a5c434bfa84438295181a7cb31ec96fd06bbebcee6ceec82aff011e3"
+            "sha256": "4bdf1c3d9616707348f745e9cc0ac5273ab23c1d96c11d23f166e4e3577ef9a1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -51,6 +51,13 @@
             ],
             "index": "pypi",
             "version": "==1.0.2"
+        },
+        "flask-login": {
+            "hashes": [
+                "sha256:c815c1ac7b3e35e2081685e389a665f2c74d7e077cb93cecabaea352da4752ec"
+            ],
+            "index": "pypi",
+            "version": "==0.4.1"
         },
         "google-api-core": {
             "extras": [
@@ -208,6 +215,7 @@
         },
         "pyasn1": {
             "hashes": [
+                "sha256:da2420fe13a9452d8ae97a0e478adde1dee153b11ba832a95b223a2ba01c10f7",
                 "sha256:da6b43a8c9ae93bc80e2739efb38cc776ba74a886e3e9318d65fe81a8b8a2c6e"
             ],
             "version": "==0.4.5"
@@ -218,6 +226,20 @@
                 "sha256:a52090e8c5841ebbf08ae455146792d9ef3e8445b21055d3a3b7ed9c712b7c7c"
             ],
             "version": "==0.2.4"
+        },
+        "pyjwt": {
+            "hashes": [
+                "sha256:5c6eca3c2940464d106b99ba83b00c6add741c9becaec087fb7ccdefea71350e",
+                "sha256:8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"
+            ],
+            "version": "==1.7.1"
+        },
+        "pysocks": {
+            "hashes": [
+                "sha256:3fe52c55890a248676fd69dc9e3c4e811718b777834bcaab7a8125cf9deac672"
+            ],
+            "markers": "python_version >= '3.0'",
+            "version": "==1.6.8"
         },
         "python-dateutil": {
             "hashes": [
@@ -238,6 +260,7 @@
                 "sha256:502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e",
                 "sha256:7bf2a778576d825600030a110f3c0e3e8edc51dfaafe1c146e39a2027784957b"
             ],
+            "markers": "python_version >= '3.0'",
             "version": "==2.21.0"
         },
         "rsa": {
@@ -264,6 +287,14 @@
         "tamuhackers19": {
             "editable": true,
             "path": "."
+        },
+        "twilio": {
+            "hashes": [
+                "sha256:5a4a332d34ae9cbedfd848b5c2cca45089d21474b4c7019f0df43c5d4a259266",
+                "sha256:7d72dbf0ceecee8d3af8a02d8fa0fba382008477b08145c0337a4c7c32836eac"
+            ],
+            "index": "pypi",
+            "version": "==6.23.1"
         },
         "urllib3": {
             "hashes": [
