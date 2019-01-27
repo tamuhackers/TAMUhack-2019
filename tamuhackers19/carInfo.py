@@ -12,7 +12,7 @@ client = smartcar.AuthClient(
     client_id=os.environ.get('CLIENT_ID'),
     client_secret=os.environ.get('CLIENT_SECRET'),
     redirect_uri=os.environ.get('REDIRECT_URI'),
-    scope=['read_vehicle_info'],
+    scope=['read_vehicle_info','read_vin','read_odometer','read_location','control_security', 'control_security:unlock', 'control_security:lock'],
     test_mode=True,
 )
 
@@ -37,6 +37,7 @@ def exchange():
     # in a production app you'll want to store this in some kind of
     # persistent storage
     access = client.exchange_code(code)
+    print (access)
     return redirect(vehicle_url)
 
 @app.route('/vehicle', methods=['GET'])
@@ -51,18 +52,26 @@ def vehicle():
     # instantiate the first vehicle in the vehicle id list
     vehicle = smartcar.Vehicle(vehicle_ids[0], access['access_token'])
     info = vehicle.info()
+    response = vehicle.vin()
+    info["vin:"]=response
     print(info)
-    '''
-    {
-        "id": "36ab27d0-fd9d-4455-823a-ce30af709ffc",
-        "make": "TESLA",
-        "model": "Model S",
-        "year": 2014
-    }
-    '''
 
     return jsonify(info)
 
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=8000)
+
+'''@app.route('/user', methods=['GET'])    #gets user id
+def userid():
+
+    global access
+
+    response = smartcar.get_user_id(access['access_token'])
+    print(response)
+    return jsonify(response)
+
+
+
+
+    response = smartcar.get_user_id(access['access_token'])
+    print(response)'''
