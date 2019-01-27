@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
+import requests
 import os
+import datetime
 
 os.environ["FLASK_ENV"] = "development"
 
@@ -18,9 +20,11 @@ def emergency():
 
 @app.route("/light", methods = ["GET", "POST"])
 def light():
+    date = datetime.datetime.today().strftime('%m-%d-%Y')
+    time = datetime.datetime.today().strftime('%H:%M')
     if request.method == "POST":
         print(request.form)
-    return render_template("light.html")
+    return render_template("light.html", d = date, t = time)
 
 if __name__ == "__main__":
     app.run(host = "0.0.0.0", port = 5001)
