@@ -11,7 +11,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 
 from tamuhackers19.db.firestore_client import FirestoreConnector
 from tamuhackers19.user import User
-from tamuhackers19.utils import send_text_message
+from tamuhackers19.utils import send_text_message, send_email
 
 import smartcar
 import requests
@@ -69,6 +69,53 @@ def login():
                     return redirect(auth_url)
         return render_template("login.html")
     return "You are already logged in!"
+
+
+@app.route("/emergency", methods = ["GET", "POST"])
+def emergency():
+    date = datetime.datetime.today().strftime('%m-%d-%Y')
+    time = datetime.datetime.today().strftime('%H:%M')
+    if request.method == "POST":
+        data = {
+            # Meta data of the crash
+            "date": request.form["date"],
+            "time": request.form["time"],
+            "location": request.form["location"],
+            "direction_you": request.form["direction_you"],
+            "direction_them": request.form["direction_them"],
+            "snapshot": request.form["snapshot"], # Might need to double check that this gets base encoded
+            "weather": request.form["weather"],
+            "visibility": request.form["visibility"],
+            
+            # The information of the other party involved
+            "legal_name": request.form["legal_name"],
+            "phone_number": request.form["phone_number"],
+            "email": request.form["email"],
+            "address": request.form["address"],
+            "insurance_company": request.form["insurance_company"],
+            "insurance_email": request.form["insurance_email"],
+            "vin": request.form["vin"],
+            "model": request.form["model"],
+            "make": request.form["make"],
+            "year": request.form["Year"], # Double check captial 'y' here
+            "license_plate": request.form["license_plate"],
+            "registration_class_code": request.form["registration_class_code"],
+        }
+        print(data["snapshot"])
+        # Now check for the optional data
+        if "has_witness" in request.form:
+            data["has_witness"] = True
+            data["witness_legal_name"] = request.form["witness_legal_name"]
+            data["witness_phone_number"] = request.form["witness_phone_number"]
+            data["witness_testimony"] = request.form["witness_testimony"]
+        if "has_police" in request.form:
+            data["has_police"] = True
+            data["police_legal_name"] = request.form["police_legal_name"]
+            data["police_badge"] = request.form["police_badge"]
+        send_email("Emergency", data)
+
+    return render_template("emergency.html", d = date, t = time)
+
 
 @app.route("/profile", methods = ["GET"])
 def profile():
@@ -141,7 +188,7 @@ def light():
             data["has_police"] = True
             data["police_legal_name"] = request.form["police_legal_name"]
             data["police_badge"] = request.form["police_badge"]
-        response = requests.post('http://127.0.0.1:80/light', data=data)
+        send_email("Light", data)
 
     lat = info['location']['data']['latitude'] if info is not None else 0
     lng = info['location']['data']['longitude'] if info is not None else 0

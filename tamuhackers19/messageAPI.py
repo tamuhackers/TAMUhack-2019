@@ -12,19 +12,22 @@ dbc = FirestoreConnector()
 # Emergency
 @app.route('/emergency', methods=["POST"])
 def emergency():
-	...
 	"""Extract data from the front-end and
 	Send an email to the insurance company of both
 	parties involved.
 	"""
-
+	if request.method == "POST":
+		data = request.form
+		send_email("Emergency", data)
+		return "Success", 200
+	return "Failure", 404
 
 # Light
 @app.route('/light', methods=["POST"])
 def light():
 	if request.method == "POST":
 		data = request.form
-		send_email(data)
+		send_email("Light", data)
 		return "Success", 200
 	return "Failure", 404
 
