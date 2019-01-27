@@ -17,6 +17,7 @@
 
 </style>
 <script type="text/javascript">
+
     function police_checked() {
         var checkbox = document.getElementById("list-checkbox-6");
         var hidden = document.getElementById("police");
@@ -39,22 +40,24 @@
         }
     }
 
-    var geocoder = new google.maps.Geocoder;
-
-    console.log("{{info['location']['data']}}");
-        geocoder.geocode({'location': "{{l}}"}, function(results, status) {
-        if (status === 'OK') {
-            if (results[0]) {
-                give_location(results[0].formatted_address);
-            }
-        }})
+    
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+        var obj = JSON.parse(xhttp.responseText)
+        give_location(obj.results[0]['formatted_address']);
+        }
+    }
+    xhttp.open("GET", `https://maps.googleapis.com/maps/api/geocode/json?latlng={{lat}},{{lng}}&key=AIzaSyAx6Sps_qnwA4NSh5cyxw24AHt-6agnkcU`, true); 
+    xhttp.send(null);
 
     function give_location(l) {
         var locationForm = document.getElementById("location-ref");
         locationForm.value = l;
     }
+
 </script>
-    <ul style= "padding-left:10%;" class="mdl-list">
+    <ul style= "padding-left:10%;" class="mdl-list" onload="initMap()">
         <li class="mdl-list__item">
         <span class="mdl-list__item-secondary-action">
             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
