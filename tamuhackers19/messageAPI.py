@@ -1,41 +1,17 @@
 import os#, db
 
 from flask import Flask, redirect, url_for, render_template, request
-from flask_mail import Mail
+
+from tamuhackers19.db.firestore_client import FirestoreConnector
+
+app = Flask("AccidentAppBackend")
 
 
-os.environ["FLASK_ENV"] = "development"
-app = Flask(__name__)
-mail = Mail(app)
+dbc = FirestoreConnector()
 
-SENDER = "carinsurance@gmail.com"
-PASSWORD = "smart_insurance"
-
-# dbc = FirestoreConnector()
-
-# def getLightInfo():
-# 	return dbc.vehicle[0]
-
-# def getemergencyInfo():
-# 	return dbc.vehicle[0] + " " + dbc.vehicle[0]
-
-# Home
-@app.route('/', method=["POST","GET"])
-def home():
-	if request.method == "POST":
-		info = ()
-		# Send info and redirect in case of emergency accident
-		if request.form["emergency"] == True:
-			insurance(request.form,"emergency")
-			return redirect('/emergency', info=info)
-		# Send info and redirect in case of light accident
-		elif request.form["light"] == True:
-			return redirect('/light', info=info)
-		elif request.form["profile"] == True:
-			return redirect('/profile')
 
 # Sending insurance email
-def insurance(info, type):
+def send_email(info, type):
 	insurNum = ""
 
 	# Send email to insurance company
@@ -57,6 +33,11 @@ def insurance(info, type):
 # Emergency
 @app.route('/emergency', method="POST")
 def emergency(info=info):
+	"""Extract data from the front-end and
+	Send an email to the insurance company of both
+	parties involved.
+	"""
+
 	insurance(info, type="emergency")
 	# Call police
 
@@ -101,3 +82,6 @@ def profile():
 
 	# Send email to insurance company
 	# Exchange information of both drivers from the database (use access codes?)
+
+if __name__ == "__main__":
+	app.run(host="0.0.0.0", port=5002)
