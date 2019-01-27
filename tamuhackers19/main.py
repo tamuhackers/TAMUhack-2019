@@ -143,7 +143,7 @@ def light():
             data["police_badge"] = request.form["police_badge"]
         response = requests.post('http://127.0.0.1:5002/light', data=data)
         print(response)
-    var info =  {'id': '25b0759f-be63-42c4-84f7-662efa180a15', 'make': 'TESLA', 'model': 'Model 3', 'year': 2018, 'location': {'data': {'latitude': 40.84291076660156, 'longitude': -105.43253326416016}, 'age': datetime.datetime(2019, 1, 27, 14, 56, 55, 210000, tzinfo=tzutc())}, 'vin': '76DFCF78A4130F34B', 'odometer': {'data': {'distance': 68968.84375}, 'unit_system': 'metric', 'age': datetime.datetime(2019, 1, 27, 14, 56, 55, 764000, tzinfo=tzutc())}}
+    info =  {'id': '25b0759f-be63-42c4-84f7-662efa180a15', 'make': 'TESLA', 'model': 'Model 3', 'year': 2018, 'location': {'data': {'latitude': 40.84291076660156, 'longitude': -105.43253326416016}, 'age': datetime.datetime(2019, 1, 27, 14, 56, 55, 210000, tzinfo=tzutc())}, 'vin': '76DFCF78A4130F34B', 'odometer': {'data': {'distance': 68968.84375}, 'unit_system': 'metric', 'age': datetime.datetime(2019, 1, 27, 14, 56, 55, 764000)}}
     return render_template("light.html", d = date, t = time, l=info['location']['data'] if info is not None else "Please Authenticate by Logging in")
 
 
