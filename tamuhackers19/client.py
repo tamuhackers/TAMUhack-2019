@@ -4,6 +4,7 @@ import os
 import datetime
 
 os.environ["FLASK_ENV"] = "development"
+os.environ['NO_PROXY'] = '127.0.0.1'
 
 app = Flask("AccidentApp", template_folder=f"{os.path.dirname(os.path.realpath(__file__))}/templates")
 @app.route("/", methods = ["GET"])
@@ -81,7 +82,8 @@ def light():
             data["has_police"] = True
             data["police_legal_name"] = request.form["police_legal_name"]
             data["police_badge"] = request.form["police_badge"]
-        print(data)
+        response = requests.post('http://127.0.0.1:5002/light', data=data)
+        print(response)
     return render_template("light.html", d = date, t = time, l = location, w = weather)
 
 if __name__ == "__main__":
