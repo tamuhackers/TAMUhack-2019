@@ -11,6 +11,7 @@ smartcar = "*"
 tamuhackers19 = {editable = true,path = "."}
 marshmallow = "*"
 google-cloud-firestore = "*"
+twilio = "*"
 
 [requires]
 python_version = "3.6"
