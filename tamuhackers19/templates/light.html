@@ -18,6 +18,17 @@
 
 </style>
 <script type="text/javascript">
+    function police_checked() {
+        var checkbox = document.getElementById("list-checkbox-6");
+        var hidden = document.getElementById("police");
+
+        if (checkbox.checked == true) {
+            hidden.style.display = "block";
+        } else {
+            hidden.style.display = "none";
+        }
+    }
+
     function witness_checked() {
         var checkbox = document.getElementById("list-checkbox-5");
         var hidden = document.getElementById("witness");
@@ -29,16 +40,6 @@
         }
     }
 
-    function police_checked() {
-        var checkbox = document.getElementById("list-checkbox-6");
-        var hidden = document.getElementById("police");
-
-        if (checkbox.checked == true) {
-            hidden.style.display = "block";
-        } else {
-            hidden.style.display = "none";
-        }
-    }
 </script>
     <ul style= "padding-left:10%;" class="mdl-list">
         <li class="mdl-list__item">
@@ -61,7 +62,7 @@
             Check for yours and your passenger's safety
         </span>
         </li>
-        <div id="police" style= "padding-top: 10px; padding-bottom: 10px;">
+        <div style= "padding-top: 10px; padding-bottom: 10px;">
         <button style= "text-align: center; font-size: 20px; width: 300px; position: relative; left: 2%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
                 Call 911
         </button>
@@ -204,7 +205,6 @@
                     Are there witnesses?
                 </span>
             </li>
-        
             <li class="mdl-list__item">
                 <span class="mdl-list__item-secondary-action">
                     <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-6">
@@ -235,7 +235,7 @@
             </div>
         </div>
         </div>
-        <div id = "police" style="display: none">
+        <div id= "police" style="display: none">
         <div class="mdl-card__title">
             <h2 class="mdl-card__title-text">Police's Info</h2>
         </div>
