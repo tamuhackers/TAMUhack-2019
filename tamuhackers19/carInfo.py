@@ -51,16 +51,22 @@ def vehicle():
     
     # TODO: Request Step 3: Create a vehicle    
     # instantiate the first vehicle in the vehicle id list
-    vehicle = smartcar.Vehicle(vehicle_ids[0], access['access_token'])
+    vehicle = smartcar.Vehicle(vehicle_ids[0], access['access_token']) #Get vehicle general info
     info = vehicle.info()
-    response = vehicle.vin()
-    call = vehicle.location()
-    info["vin"]=response
-    end = {**info,**call}
-    
-    print(end)
 
-    return jsonify(end)
+    response = vehicle.vin() #Gets vehicle vin number
+
+    call = vehicle.location() #Gets vehicle's location
+
+    distance = vehicle.odometer()
+
+    info["vin"]=response
+    info["distance"]=distance
+   
+    info.update(call) #Merges data
+    print(info)
+
+    return jsonify(info)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=8000)
