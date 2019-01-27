@@ -1,11 +1,11 @@
-import os#, db
+import os
 
 from flask import Flask, redirect, url_for, render_template, request
 
 from tamuhackers19.db.firestore_client import FirestoreConnector
+from tamuhackers19.utils import send_email
 
 app = Flask("AccidentAppBackend")
-
 
 dbc = FirestoreConnector()
 

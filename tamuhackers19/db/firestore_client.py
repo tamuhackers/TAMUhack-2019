@@ -58,6 +58,7 @@ class FirestoreConnector(object):
 			"code": code,
 		}
 		self.db.collection("passwordless").document().set(data)
+		return code
 
 
 	def get_login_code(self, phone_number: str) -> str:
