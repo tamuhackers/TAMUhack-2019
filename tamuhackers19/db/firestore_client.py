@@ -52,7 +52,7 @@ class FirestoreConnector(object):
 		"""Given a phone number, associate a login code for that
 		number so that a user may login via SMS authentication password.
 		"""
-		code = str(uuid4())[:-6]
+		code = str(uuid4())[-6:]
 		data = {
 			"phone_number": phone_number,
 			"code": code,
@@ -69,7 +69,11 @@ class FirestoreConnector(object):
 		"""
 		passwordless_ref = self.db.collection("passwordless")
 		query = passwordless_ref.where("phone_number", "==", phone_number)
-		return next(query.get())._data["code"]
+		try:
+			code = next(query.get())._data["code"]
+			return code
+		except StopIteration as e:
+			return code
 
 
 if __name__== "__main__":
